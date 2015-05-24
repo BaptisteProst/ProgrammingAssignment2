@@ -1,17 +1,40 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Create a cacheMatrix to reduce time calculation of
+##matrix invertion
 
-## Write a short comment describing this function
-
-##comment to test to commit on git
+## create a list to store an invert matrix on Global environment 
 
 makeCacheMatrix <- function(x = matrix()) {
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setmatrix <- function(solve) m <<- solve
+  getmatrix <- function() m
+  ## create the list with the previous calculated elements
+  list(set = set, get = get,
+       setmatrix = setmatrix,
+       getmatrix = getmatrix)
 
 }
 
+## calulate invert of matrix and check if its invert already
+##existe in the list created by makeCacheMatrix() function
 
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheSolve <- function(x=matrix(), ...) {
+      
+  m <- x$getmatrix()
+  ## check if the invert already exist
+  if(!is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  ##if it doesn't exist yet, calculate it
+  matrixdata <- x$get()
+  m <- solve(matrixdata, ...)
+  x$setmatrix(m)
+  m
 }
+
+##Thank you for reading :)
